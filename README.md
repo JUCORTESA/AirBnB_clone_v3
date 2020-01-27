@@ -155,8 +155,8 @@ No known bugs at this time.
 
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
-Jorge Zafra - [Github](https://github.com/jorgezafra94) / [Twitter](https://twitter.com/jorgezafra7)
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)   
+Jorge Zafra - [Github](https://github.com/jorgezafra94) / [Twitter](https://twitter.com/jorgezafra7)   
 Juan Carlos Cortes - [Github](https://github.com/jucortesa) / [Twitter](https://twitter.com/jucortesa)
 
 
