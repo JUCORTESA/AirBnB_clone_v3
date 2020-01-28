@@ -35,7 +35,7 @@ def state_id(state_id):
                 dic[elem].delete()
                 storage.save()
                 return (jsonify(aux))
-        abort(404)
+    abort(404)
 
 
 @app_views.route('/states', methods=['POST'])
