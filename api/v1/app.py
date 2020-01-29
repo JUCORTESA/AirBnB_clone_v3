@@ -14,12 +14,11 @@ app.register_blueprint(app_views)
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found(error):
     """
     Function that shows 404
     """
-    dic = {"error": "Not found"}
-    return jsonify(dic)
+    return (jsonify(error="Not found"), 404)
 
 
 @app.teardown_appcontext
