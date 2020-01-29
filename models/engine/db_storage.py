@@ -78,10 +78,11 @@ class DBStorage:
     def get(self, cls, id):
         """ return the specified object
         """
-        objs = self.__session.query(eval(cls))
-        for elem in objs:
-            if (elem.id == id):
-                return (elem)
+        if cls in classes:
+            objs = self.__session.query(eval(cls))
+            for elem in objs:
+                if (elem.id == id):
+                    return (elem)
         return (None)
 
     def count(self, cls=None):
