@@ -29,7 +29,8 @@ def am_list(place_id):
     abort(404)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'])
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'])
 def am_delete(place_id, amenity_id):
     """ delete the obj
     """
