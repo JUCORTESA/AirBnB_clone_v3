@@ -82,7 +82,6 @@ def update_place(place_id):
     dic = storage.all('Place')
     for key in dic:
         if place_id == dic[key].id:
-            print(dic[key].id)
             if not request.json:
                 return (jsonify("Not a JSON"), 400)
             else:

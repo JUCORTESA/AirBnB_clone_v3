@@ -51,7 +51,6 @@ def add_item():
         else:
             new_state = State(**content)
             new_state.save()
-            print(new_state)
             return (jsonify(new_state.to_dict()), 201)
 
 
