@@ -125,7 +125,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count_no_class(self):
-        """ test count if class user
+        """ test count with class user
         """
         counter = 0
         dic = models.storage.all("User")

@@ -76,7 +76,7 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """ return the specified object
+        """ return the specified object by id
         """
         if cls in classes.keys():
             objs = self.__session.query(eval(cls))
