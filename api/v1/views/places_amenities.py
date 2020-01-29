@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Place_amenities APIRest
+""" Place_amenities Restful API
 """
 
 from models import storage
@@ -16,7 +16,7 @@ type = getenv('HBNB_TYPE_STORAGE')
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
 def am_list(place_id):
-    """ list of objetc in dict form
+    """ list of an objetc in dict form
     """
     lista = []
     dic = storage.all('Place')
@@ -29,9 +29,10 @@ def am_list(place_id):
     abort(404)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'])
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'])
 def am_delete(place_id, amenity_id):
-    """ delete the obj
+    """ delete the object
     """
     p = storage.get("Place", place_id)
     a = storage.get("Amenity", amenity_id)
@@ -50,7 +51,7 @@ def am_delete(place_id, amenity_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
 def add_am(place_id, amenity_id):
-    """ create a amenity of a specified city
+    """ create an amenity of a specific city
     """
     lista = []
     obj = storage.get("Place", place_id)
