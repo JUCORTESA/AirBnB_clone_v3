@@ -160,7 +160,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(counter, storage.count("NO_CLASS"))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count_no_class(self):
+    def test_count(self):
         """ test count with class user
         """
         storage = FileStorage()
