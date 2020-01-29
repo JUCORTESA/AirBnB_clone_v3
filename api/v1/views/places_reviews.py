@@ -4,7 +4,6 @@
 
 from models import storage
 from models.place import Place
-from models.city import City
 from models.user import User
 from models.review import Review
 from api.v1.views import app_views
@@ -18,7 +17,7 @@ def rev_list(place_id):
     lista = []
     dic = storage.all('Place')
     for elem in dic:
-        if dic[elem].id == city_id:
+        if dic[elem].id == place_id:
             var = dic[elem].reviews
             for i in var:
                 lista.append(i.to_dict())
