@@ -32,7 +32,7 @@ def am_list(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'])
 def am_delete(place_id, amenity_id):
-    """ delete the obj
+    """ delete the object
     """
     p = storage.get("Place", place_id)
     a = storage.get("Amenity", amenity_id)
