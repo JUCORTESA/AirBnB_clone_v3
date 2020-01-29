@@ -124,12 +124,16 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_class_no_id(self):
+        """ test get if a class id doesn´t exist
+        """
         storage = FileStorage()
         one = storage.get("State", "09231280jdodasd")
         self.assertEqual(one, None)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
+        """ test get return
+        """
         storage = FileStorage()
         first_elem = list(storage.all("State").values())[0]
         first_state_id = first_elem.id
@@ -138,6 +142,8 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count_no_class(self):
+        """ test count is no class
+        """
         storage = FileStorage()
         counter = 0
         dic = storage.all()
@@ -147,12 +153,16 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count_fail(self):
+        """ test count if no valid class
+        """
         storage = FileStorage()
         counter = 0
         self.assertEqual(counter, storage.count("NO_CLASS"))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count_no_class(self):
+        """ test count if class user
+        """
         storage = FileStorage()
         counter = 0
         dic = storage.all("User")
