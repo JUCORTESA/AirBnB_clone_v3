@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" State APIRest
+""" Place APIRest
 """
 
 from models import storage
