@@ -51,7 +51,7 @@ def am_delete(place_id, amenity_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
 def add_am(place_id, amenity_id):
-    """ create a amenity of a specified city
+    """ create an amenity of a specified city
     """
     lista = []
     obj = storage.get("Place", place_id)
