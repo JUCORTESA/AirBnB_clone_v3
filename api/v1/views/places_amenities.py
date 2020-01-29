@@ -9,6 +9,9 @@ from models.amenity import Amenity
 from models.review import Review
 from api.v1.views import app_views
 from flask import jsonify, abort, request
+from os import getenv
+
+type = getenv('HBNB_TYPE_STORAGE')
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
@@ -36,52 +39,34 @@ def am_delete(place_id, amenity_id):
         abort(404)
     for elem in p.amenities:
         if elem.id == a.id:
-            p.amenities.remove(a)
-            storage.save()
+            if type == 'db':
+                p.amenities.remove(a)
+            else:
+                p.amenity_ids.remove(a)
+            p.save()
             return jsonify({})
     abort(404)
-@app_views.route('/places/<place_id>/reviews', methods=['POST'])
-def add_rev(place_id):
-    """ create a review of a specified city
+
+
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
+def add_am(place_id, amenity_id):
+    """ create a amenity of a specified city
     """
     lista = []
     obj = storage.get("Place", place_id)
-    content = request.get_json()
-    if not obj:
+    p = storage.get("Place", place_id)
+    a = storage.get("Amenity", amenity_id)
+    print(a)
+    print("+++++++++++")
+    print(p)
+    if not a or not p:
         abort(404)
-    if not request.json:
-        return (jsonify("Not a JSON"), 400)
+    for elem in p.amenities:
+        if elem.id == a.id:
+            return jsonify(a.to_dict())
+    if type == 'db':
+        p.amenities.append(a)
     else:
-        if "user_id" not in content.keys():
-            return (jsonify("Missing user_id"), 400)
-        obj2 = storage.get("User", content["user_id"])
-        if not obj2:
-            abort(404)
-        if "text" not in content.keys():
-            return (jsonify("Missing text"), 400)
-
-        content["place_id"] = place_id
-        new_place = Review(**content)
-        new_place.save()
-        return jsonify(new_place.to_dict()), 201
-
-
-@app_views.route('/reviews/<review_id>', methods=['PUT'])
-def update_rev(review_id):
-    """ update specified place
-    """
-    dic = storage.all('Review')
-    for key in dic:
-        if review_id == dic[key].id:
-            if not request.json:
-                return (jsonify("Not a JSON"), 400)
-            else:
-                forbidden = ["id", "update_at", "created_at",
-                             "place_id", "user_id"]
-                content = request.get_json()
-                for k in content:
-                    if k not in forbidden:
-                        setattr(dic[key], k, content[k])
-                dic[key].save()
-                return jsonify(dic[key].to_dict())
-    abort(404)
+        p.amenity_id.append(a)
+    p.save()
+    return jsonify(a.to_dict()), 201
