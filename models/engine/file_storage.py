@@ -70,7 +70,7 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ return the specified object
+        """ return the specified object if exsist
         """
         dic = self.__objects
         for key in dic:
