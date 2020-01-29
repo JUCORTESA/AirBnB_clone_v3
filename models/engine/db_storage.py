@@ -78,7 +78,7 @@ class DBStorage:
     def get(self, cls, id):
         """ return the specified object
         """
-        if cls in classes:
+        if cls in classes.keys():
             objs = self.__session.query(eval(cls))
             for elem in objs:
                 if (elem.id == id):
@@ -96,7 +96,7 @@ class DBStorage:
                     count = count + 1
             return (count)
         else:
-            if cls in classes:
+            if cls in classes.keys():
                 objs = self.__session.query(eval(cls))
                 for obj in objs:
                     count = count + 1
