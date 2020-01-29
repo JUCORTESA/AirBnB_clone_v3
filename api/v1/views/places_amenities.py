@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Place_amenities APIRest
+""" Place_amenities Restful API
 """
 
 from models import storage
