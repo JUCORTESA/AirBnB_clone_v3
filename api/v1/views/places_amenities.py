@@ -16,7 +16,7 @@ type = getenv('HBNB_TYPE_STORAGE')
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
 def am_list(place_id):
-    """ list of objetc in dict form
+    """ list of an objetc in dict form
     """
     lista = []
     dic = storage.all('Place')
