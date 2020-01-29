@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" State APIRest
+""" City APIRest
  careful by default it uses get method
 """
 
