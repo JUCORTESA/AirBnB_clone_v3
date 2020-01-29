@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" State APIRest
+""" Amenities APIRest
 """
 
 from models import storage
