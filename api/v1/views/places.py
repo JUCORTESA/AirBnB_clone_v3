@@ -138,12 +138,12 @@ def advanced():
                         places.append(pl)
     # rule 3
     if "cities" in content.keys() and len(content["cities"]) > 0:
-         cities = content["cities"]
-         for id in cities:
-             ct = storage.get("City", id)
-             if ct:
-                 for pl in ct.places:
-                     places.append(pl)
+        cities = content["cities"]
+        for id in cities:
+            ct = storage.get("City", id)
+            if ct:
+                for pl in ct.places:
+                    places.append(pl)
 
     places = list(set(places))
 
