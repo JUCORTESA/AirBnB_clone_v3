@@ -94,3 +94,76 @@ def update_place(place_id):
                 dic[key].save()
                 return jsonify(dic[key].to_dict())
     abort(404)
+
+# ----------------------advanced task ---------------------------------------
+
+
+@app_views.route('/places_search', methods=['POST'])
+def advanced():
+    """ return all places per city, state or amenities
+    return all places that has all amenities
+    return all places that belong to city or state
+    permited keys states, cities, amenities
+    """
+    content = request.get_json()
+    result = []
+    # rule empty body and not json file
+    try:
+        if (len(content) == 0 and type(content) is dict):
+            dic = storage.all("Place")
+            for key in dic:
+                result.append(dic[key].to_dict())
+            return jsonify(result)
+    except:
+        if not request.json:
+            return (jsonify("Not a JSON"), 400)
+    # rule empty permited keys
+    flag = 0
+    for key in content:
+        if len(content[key]) > 0:
+            flag = 1
+    if flag == 0:
+            dic = storage.all("Place")
+            for key in dic:
+                result.append(dic[key].to_dict())
+            return jsonify(result)
+    # rule 1 states
+    if "states" in content.keys() and len(content["states"]) > 0:
+        for i in content["states"]:
+            st = storage.get("State", i)
+            if st:
+                for city in st.cities:
+                    for place in city.places:
+                        if place.to_dict() not in result:
+                            result.append(place.to_dict())
+    # rule 2 cities
+    if "cities" in content.keys() and len(content["cities"]) > 0:
+        for i in content["cities"]:
+            ct = storage.get("City", i)
+            if ct:
+                for place in ct.places:
+                    if place.to_dict() not in result:
+                        result.append(place.to_dict())
+    # rule 3 amenities
+    w = "amenities"
+    if w in content.keys() and len(content[w]) > 0:
+        place_list = storage.all("Place").values()
+        for place in place_list:
+            flag = 0
+            am_list = []
+            am_ids = []
+            amenities = place.amenities
+            for am in amenities:
+                am_list.append(am.to_dict())
+            for elem in am_list:
+                am_ids.append(elem["id"])
+            for id in content[w]:
+                if id not in am_ids:
+                    flag = 1
+            if flag == 0:
+                var = place.to_dict()
+                if "amenities" in var.keys():
+                    del var["amenities"]
+                if var not in result:
+                    result.append(var)
+    return jsonify(result)
