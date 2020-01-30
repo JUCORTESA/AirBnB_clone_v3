@@ -78,6 +78,7 @@ class TestUser(unittest.TestCase):
         else:
             self.assertEqual(user.email, "")
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', "file_storage")
     def test_password_attr(self):
         """Test that User has attr password, and it's an empty string"""
         user = User()
