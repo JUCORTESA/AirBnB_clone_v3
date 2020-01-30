@@ -105,69 +105,62 @@ def advanced():
     return all places that belong to city or state
     permited keys states, cities, amenities
     """
-    content = request.get_json()
-    result = []
-    # rule empty body and not json file
-    try:
-        if (len(content) == 0 and type(content) is dict):
-            dic = storage.all("Place")
-            for key in dic:
-                result.append(dic[key].to_dict())
-            return jsonify(result)
-    except:
-        if not request.json:
-            return (jsonify("Not a JSON"), 400)
-    # rule empty permited keys
+    # rule 0
+    content = request.get_json(force=True, silent=True)
+    if content is None:
+        return jsonify('Not a JSON'), 400
+    # rule 1
+    result, places = [], []
+    if len(content) == 0:
+        places = storage.all("Place").values()
+        for elem in places:
+            result.append(elem.to_dict())
+        return jsonify(result)
+
     flag = 0
     for key in content:
         if len(content[key]) > 0:
             flag = 1
+            break
     if flag == 0:
-            dic = storage.all("Place")
-            for key in dic:
-                result.append(dic[key].to_dict())
-            return jsonify(result)
-    # rule 1 states
+        places = storage.all("Place").values()
+        for elem in places:
+            result.append(elem.to_dict())
+        return jsonify(result)
+    # rule 2
     if "states" in content.keys() and len(content["states"]) > 0:
-        for i in content["states"]:
-            st = storage.get("State", i)
+        states = content["states"]
+        for id in states:
+            st = storage.get("State", id)
             if st:
                 for city in st.cities:
-                    for place in city.places:
-                        result.append(place)
-    # rule 2 cities
+                    for pl in city.places:
+                        places.append(pl)
+    # rule 3
     if "cities" in content.keys() and len(content["cities"]) > 0:
-        for i in content["cities"]:
-            ct = storage.get("City", i)
-            if ct:
-                for place in ct.places:
-                    result.append(place)
+         cities = content["cities"]
+         for id in cities:
+             ct = storage.get("City", id)
+             if ct:
+                 for pl in ct.places:
+                     places.append(pl)
 
-    aux, result = list(set(result)), []
-    for elem in aux:
-        result.append(elem.to_dict())
+    places = list(set(places))
 
-    # rule 3 amenities
-    w = "amenities"
-    if w in content.keys() and len(content[w]) > 0:
-        place_list = aux
-        for place in place_list:
-            flag = 0
-            am_list = []
-            am_ids = []
-            amenities = place.amenities
-            for am in amenities:
-                am_list.append(am.to_dict())
-            for elem in am_list:
-                am_ids.append(elem["id"])
-            for id in content[w]:
-                if id not in am_ids:
-                    flag = 1
-                    aux.remove(place)
-        aux, result = list(set(aux)), []
-        for elem in aux:
-            var = elem.to_dict()
-            if "amenities" in var.keys():
-                del var["amenities"]
-            result.append(var)
+    if "amenities" in content.keys() and len(content["amenities"]) > 0:
+        am = content["amenities"]
+        am_list = []
+        for id in am:
+            am_list.append(storage.get("Amenity", id))
+        print(places)
+        for elem in places:
+            for amenity in am_list:
+                if amenity not in elem.amenities:
+                    places.remove(elem)
+    print(places)
+    for elem in places:
+        var = elem.to_dict()
+        if "amenities" in var.keys():
+            del var["amenities"]
+        result.append(var)
     return jsonify(result)
