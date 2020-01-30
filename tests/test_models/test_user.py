@@ -10,6 +10,7 @@ from models import user
 from models.base_model import BaseModel
 import pep8
 import unittest
+from os import getenv
 User = user.User
 
 
@@ -57,6 +58,7 @@ class TestUserDocs(unittest.TestCase):
                             "{:s} method needs a docstring".format(func[0]))
 
 
+@unittest.skipIf(getenv("HBNB_TYPE_STORAGE") == 'db', "not testing db storage")
 class TestUser(unittest.TestCase):
     """Test the User class"""
     def test_is_subclass(self):
