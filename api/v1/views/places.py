@@ -134,20 +134,23 @@ def advanced():
             if st:
                 for city in st.cities:
                     for place in city.places:
-                        if place.to_dict() not in result:
-                            result.append(place.to_dict())
+                        result.append(place)
     # rule 2 cities
     if "cities" in content.keys() and len(content["cities"]) > 0:
         for i in content["cities"]:
             ct = storage.get("City", i)
             if ct:
                 for place in ct.places:
-                    if place.to_dict() not in result:
-                        result.append(place.to_dict())
+                    result.append(place)
+
+    aux, result = list(set(result)), []
+    for elem in aux:
+        result.append(elem.to_dict())
+
     # rule 3 amenities
     w = "amenities"
     if w in content.keys() and len(content[w]) > 0:
-        place_list = storage.all("Place").values()
+        place_list = aux
         for place in place_list:
             flag = 0
             am_list = []
@@ -160,10 +163,11 @@ def advanced():
             for id in content[w]:
                 if id not in am_ids:
                     flag = 1
-            if flag == 0:
-                var = place.to_dict()
-                if "amenities" in var.keys():
-                    del var["amenities"]
-                if var not in result:
-                    result.append(var)
+                    aux.remove(place)
+        aux, result = list(set(aux)), []
+        for elem in aux:
+            var = elem.to_dict()
+            if "amenities" in var.keys():
+                del var["amenities"]
+            result.append(var)
     return jsonify(result)
