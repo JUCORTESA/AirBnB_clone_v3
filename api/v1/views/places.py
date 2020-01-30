@@ -138,26 +138,21 @@ def advanced():
                         places.append(pl)
     # rule 3
     if "cities" in content.keys() and len(content["cities"]) > 0:
-         cities = content["cities"]
-         for id in cities:
-             ct = storage.get("City", id)
-             if ct:
-                 for pl in ct.places:
-                     places.append(pl)
+        cities = content["cities"]
+        for id in cities:
+            ct = storage.get("City", id)
+            if ct:
+                for pl in ct.places:
+                    places.append(pl)
 
     places = list(set(places))
 
     if "amenities" in content.keys() and len(content["amenities"]) > 0:
-        am = content["amenities"]
-        am_list = []
-        for id in am:
-            am_list.append(storage.get("Amenity", id))
-        print(places)
-        for elem in places:
-            for amenity in am_list:
-                if amenity not in elem.amenities:
-                    places.remove(elem)
-    print(places)
+        ame = []
+        for id in content["amenities"]:
+            ame.append(storage.get("Amenity", id))
+        places = [pl for pl in places if all([a in pl.amenities for a in ame])]
+
     for elem in places:
         var = elem.to_dict()
         if "amenities" in var.keys():
