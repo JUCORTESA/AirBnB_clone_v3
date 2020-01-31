@@ -77,7 +77,7 @@ def add_rev(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def update_rev(review_id):
-    """ update specified place
+    """ update a specified place
     """
     dic = storage.all('Review')
     for key in dic:
