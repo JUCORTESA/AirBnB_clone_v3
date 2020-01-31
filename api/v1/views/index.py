@@ -16,7 +16,7 @@ def response():
 
 @app_views.route('/stats')
 def class_counter():
-    """ get dictionary from count method
+    """ get a dictionary from count method
     """
     dic = {}
     dic["amenities"] = storage.count("Amenity")
