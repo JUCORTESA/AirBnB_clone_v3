@@ -10,7 +10,7 @@ from flask import jsonify, abort, request
 
 @app_views.route('/users', methods=['GET'])
 def user_list():
-    """ list of objetc in dict form
+    """ list of an objetc in a dict form
     """
     lista = []
     dic = storage.all('User')
@@ -58,7 +58,7 @@ def user_item():
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
-    """ update item
+    """ update an item
     """
     dic = storage.all("User")
     for key in dic:
