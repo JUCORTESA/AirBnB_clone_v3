@@ -12,7 +12,7 @@ from flask import jsonify, abort, request
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def places_list(city_id):
-    """ list of objetc in dict form
+    """ list of an objetc in a dict form
     """
     lista = []
     dic = storage.all('City')
