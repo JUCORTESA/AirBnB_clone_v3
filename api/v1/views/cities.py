@@ -12,7 +12,7 @@ from flask import jsonify, abort, request
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
 def list_cities(state_id):
-    """ list all cities from specified state
+    """ list all cities from a specified state
     """
     lista = []
     dic = storage.all('State')
