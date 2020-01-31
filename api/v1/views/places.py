@@ -150,8 +150,14 @@ def advanced():
     if "amenities" in content.keys() and len(content["amenities"]) > 0:
         ame = []
         for id in content["amenities"]:
-            ame.append(storage.get("Amenity", id))
-        places = [pl for pl in places if all([a in pl.amenities for a in ame])]
+            am = storage.get("Amenity", id)
+            if am:
+                ame.append(am)
+        for place in places:
+            place_amenities = place.amenities
+            for amenity in ame:
+                if amenity not in place_amenities:
+                    places.remove(place)
 
     for elem in places:
         var = elem.to_dict()
