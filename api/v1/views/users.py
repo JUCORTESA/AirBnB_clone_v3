@@ -10,7 +10,20 @@ from flask import jsonify, abort, request
 
 @app_views.route('/users', methods=['GET'])
 def user_list():
-    """ list of an objetc in a dict form
+    """ list of objetc in dict form
+    ---
+    tags:
+        - Users
+    parameters:
+      - name: user
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show User
+      404:
+        description: User not found
     """
     lista = []
     dic = storage.all('User')
@@ -22,6 +35,19 @@ def user_list():
 @app_views.route('/users/<user_id>', methods=['GET', 'DELETE'])
 def user_id(user_id):
     """ realize the specific action depending on method
+    ---
+    tags:
+        - Users
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show User
+      404:
+        description: User not found
     """
     lista = []
     dic = storage.all('User')
@@ -41,6 +67,26 @@ def user_id(user_id):
 @app_views.route('/users', methods=['POST'])
 def user_item():
     """ add a new item
+    ---
+    tags:
+        - Users
+    parameters:
+      - name: city
+        in: body
+        required: true
+        schema:
+            id: city_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      201:
+        description: Add User
+      404:
+        description: User not found
+      400:
+        description: Not a JSON, Missing email or Missing password
     """
     if not request.json:
         return jsonify("Not a JSON"), 400
@@ -58,7 +104,31 @@ def user_item():
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
-    """ update an item
+    """ update item
+    ---
+    tags:
+        - Users
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+      - name: user
+        in: body
+        required: true
+        schema:
+            id: user_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Update an User
+      404:
+        description: User not found
+      400:
+        description: Not a JSON
     """
     dic = storage.all("User")
     for key in dic:

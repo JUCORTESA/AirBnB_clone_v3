@@ -13,6 +13,19 @@ from flask import jsonify, abort, request
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
 def rev_list(place_id):
     """ list of objetc in dict form
+    ---
+    tags:
+        - Place Reviews
+    parameters:
+      - name: place_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show Reviews
+      404:
+        description: Review not found
     """
     lista = []
     dic = storage.all('Place')
@@ -28,6 +41,19 @@ def rev_list(place_id):
 @app_views.route('/reviews/<review_id>', methods=['GET'])
 def review(review_id):
     """ list of objetc in dict form
+    ---
+    tags:
+        - Place Reviews
+    parameters:
+      - name: review_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show Reviews
+      404:
+        description: Review not found
     """
     dic = storage.all('Review')
     for elem in dic:
@@ -39,6 +65,19 @@ def review(review_id):
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
 def rev_delete(review_id):
     """ delete the delete
+    ---
+    tags:
+        - Place Reviews
+    parameters:
+      - name: review_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Delete Reviews
+      404:
+        description: Review not found
     """
     dic = storage.all('Review')
     for key in dic:
@@ -52,6 +91,30 @@ def rev_delete(review_id):
 @app_views.route('/places/<place_id>/reviews', methods=['POST'])
 def add_rev(place_id):
     """ create a review of a specified city
+    ---
+    tags:
+        - Place Reviews
+    parameters:
+      - name: place_id
+        in: path
+        type: string
+        required: true
+      - name: Place review
+        in: body
+        required: true
+        schema:
+            id: review_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      201:
+        description: Add Reviews
+      404:
+        description: Review not found
+      400:
+        description: Not a JSON, Missing user_id or Missing text
     """
     lista = []
     obj = storage.get("Place", place_id)
@@ -77,7 +140,31 @@ def add_rev(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def update_rev(review_id):
-    """ update a specified place
+    """ update specified place
+    ---
+    tags:
+        - Place Reviews
+    parameters:
+      - name: review_id
+        in: path
+        type: string
+        required: true
+      - name: Place review
+        in: body
+        required: true
+        schema:
+            id: review_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Update Reviews
+      404:
+        description: Review not found
+      400:
+        description: Not a JSON
     """
     dic = storage.all('Review')
     for key in dic:

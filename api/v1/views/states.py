@@ -10,7 +10,19 @@ from flask import jsonify, abort, request
 
 @app_views.route('/states', methods=['GET'])
 def list_dict():
-    """ list of an objetc in a dict form
+    """ list of objetc in dict form
+    ---
+    tags:
+        - States
+    parameters:
+      - name: states
+        in: path
+        type: string
+    responses:
+      200:
+        description: Show State
+      404:
+        description: State not found
     """
     lista = []
     dic = storage.all('State')
@@ -22,6 +34,19 @@ def list_dict():
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE'])
 def state_id(state_id):
     """ realize the specific action depending on method
+    ---
+    tags:
+        - States
+    parameters:
+      - name: state_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show State
+      404:
+        description: State not found
     """
     lista = []
     dic = storage.all('State')
@@ -41,6 +66,28 @@ def state_id(state_id):
 @app_views.route('/states', methods=['POST'])
 def add_item():
     """ add a new item
+    ---
+    tags:
+        - States
+    consumes:
+        - "application/json"
+    produces:
+        - "application/json"
+    parameters:
+      - name: state
+        in: body
+        required: true
+        schema:
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      201:
+        description: Add a State
+      404:
+        description: State not found
+      400:
+        description: NOt a JSON or Missing name
     """
     if not request.json:
         return jsonify("Not a JSON"), 400
@@ -57,6 +104,28 @@ def add_item():
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update_item(state_id):
     """ update item
+    ---
+    tags:
+        - States
+    parameters:
+      - name: state_id
+        in: path
+        type: string
+        required: true
+      - name: state
+        in: body
+        required: true
+        schema:
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Update a State
+      404:
+        description: State not found
+      400:
+        description: NOt a JSON
     """
     dic = storage.all("State")
     for key in dic:

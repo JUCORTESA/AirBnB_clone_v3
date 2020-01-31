@@ -11,6 +11,18 @@ from flask import jsonify, abort, request
 @app_views.route('/amenities', methods=['GET'])
 def amenity_list():
     """ list of objetc in dict form
+    ---
+    tags:
+        - Amenities
+    parameters:
+      - name: amenity
+        in: path
+        type: string
+    responses:
+      200:
+        description: Show Amenity
+      404:
+        description: Amenity not found
     """
     lista = []
     dic = storage.all('Amenity')
@@ -21,7 +33,20 @@ def amenity_list():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE'])
 def amenity_id(amenity_id):
-    """ realize the specific action depending on a method
+    """ realize the specific action depending on method
+    ---
+    tags:
+        - Amenities
+    parameters:
+      - name: amenity_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show Amenity
+      404:
+        description: Amenity not found
     """
     lista = []
     dic = storage.all('Amenity')
@@ -41,6 +66,26 @@ def amenity_id(amenity_id):
 @app_views.route('/amenities', methods=['POST'])
 def amenity_item():
     """ add a new item
+    ---
+    tags:
+        - Amenities
+    parameters:
+      - name: amenity
+        in: body
+        required: true
+        schema:
+            id: amenity_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      201:
+        description: Show Amenity
+      404:
+        description: Amenity not found
+      400:
+        description: Missing name or not a JSON
     """
     if not request.json:
         return jsonify("Not a JSON"), 400
@@ -57,6 +102,30 @@ def amenity_item():
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity(amenity_id):
     """ update item
+    ---
+    tags:
+        - Amenities
+    parameters:
+      - name: amenity_id
+        in: path
+        type: string
+        required: true
+      - name: amenity
+        in: body
+        required: true
+        schema:
+            id: amenity_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Update Amenity
+      404:
+        description: Amenity not found
+      400:
+        description: Not a JSON
     """
     dic = storage.all("Amenity")
     for key in dic:

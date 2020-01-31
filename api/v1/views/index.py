@@ -9,6 +9,18 @@ from flask import jsonify
 @app_views.route('/status')
 def response():
     """ get status ok
+    ---
+    tags:
+        - Status
+    parameters:
+      - name: status
+        in: path
+        type: string
+    responses:
+      200:
+        description: Ok
+      404:
+        description: State not found
     """
     dic = {"status": "OK"}
     return jsonify(dic)
@@ -16,7 +28,7 @@ def response():
 
 @app_views.route('/stats')
 def class_counter():
-    """ get a dictionary from count method
+    """ get dictionary from count method
     """
     dic = {}
     dic["amenities"] = storage.count("Amenity")

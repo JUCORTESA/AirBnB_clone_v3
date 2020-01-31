@@ -12,7 +12,20 @@ from flask import jsonify, abort, request
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
 def list_cities(state_id):
-    """ list all cities from a specified state
+    """ list all cities from specified state
+    ---
+    tags:
+        - Cities
+    parameters:
+      - name: state_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show City
+      404:
+        description: City not found
     """
     lista = []
     dic = storage.all('State')
@@ -28,6 +41,19 @@ def list_cities(state_id):
 @app_views.route('/cities/<city_id>', methods=['GET'])
 def city_id(city_id):
     """ return the city
+    ---
+    tags:
+        - Cities
+    parameters:
+      - name: city_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show City
+      404:
+        description: City not found
     """
     dic = storage.all('City')
     for key in dic:
@@ -39,6 +65,19 @@ def city_id(city_id):
 @app_views.route('/cities/<city_id>', methods=['DELETE'])
 def city_delete(city_id):
     """ delete the delete
+    ---
+    tags:
+        - Cities
+    parameters:
+      - name: city_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Delete City
+      404:
+        description: City not found
     """
     dic = storage.all('City')
     for key in dic:
@@ -52,6 +91,26 @@ def city_delete(city_id):
 @app_views.route('/states/<state_id>/cities', methods=['POST'])
 def add_city(state_id):
     """ create a city of a specified state
+    ---
+    tags:
+        - Cities
+    parameters:
+      - name: city
+        in: body
+        required: true
+        schema:
+            id: state_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Show City
+      404:
+        description: City not found
+      400:
+        description: Not a JSON or Missing name
     """
     lista = []
     dic = storage.all('State')
@@ -74,6 +133,30 @@ def add_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'])
 def update_city(city_id):
     """ update specified city
+    ---
+    tags:
+        - Cities
+    parameters:
+      - name: city_id
+        in: path
+        type: string
+        required: true
+      - name: city
+        in: body
+        required: true
+        schema:
+            id: city_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      200:
+        description: Update City
+      404:
+        description: City not found
+      400:
+        description: Not a JSON
     """
     dic = storage.all('City')
     for key in dic:

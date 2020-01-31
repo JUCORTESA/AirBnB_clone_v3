@@ -17,6 +17,19 @@ type = getenv('HBNB_TYPE_STORAGE')
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
 def am_list(place_id):
     """ list of an objetc in dict form
+    ---
+    tags:
+        - Place Amenities
+    parameters:
+      - name: place_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Show Amenities
+      404:
+        description: Amenity not found
     """
     lista = []
     dic = storage.all('Place')
@@ -33,6 +46,23 @@ def am_list(place_id):
                  methods=['DELETE'])
 def am_delete(place_id, amenity_id):
     """ delete the object
+    ---
+    tags:
+        - Place Amenities
+    parameters:
+      - name: place_id
+        in: path
+        type: string
+        required: true
+      - name: amenity_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Delete Amenities
+      404:
+        description: Amenity not found
     """
     p = storage.get("Place", place_id)
     a = storage.get("Amenity", amenity_id)
@@ -51,7 +81,33 @@ def am_delete(place_id, amenity_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
 def add_am(place_id, amenity_id):
-    """ create an amenity of a city
+    """ create an amenity of a specific city
+    ---
+    tags:
+        - Place Amenities
+    parameters:
+      - name: place_id
+        in: path
+        type: string
+        required: true
+      - name: amenity_id
+        in: path
+        type: string
+        required: true
+      - name: Place amenity
+        in: body
+        required: true
+        schema:
+            id: amenity_id
+            type: "object"
+            "properties":
+              "name":
+                "type": "string"
+    responses:
+      201:
+        description: Delete Amenities
+      404:
+        description: Amenity not found
     """
     lista = []
     obj = storage.get("Place", place_id)
