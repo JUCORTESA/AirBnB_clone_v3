@@ -21,7 +21,7 @@ def amenity_list():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE'])
 def amenity_id(amenity_id):
-    """ realize the specific action depending on method
+    """ realize the specific action depending on a method
     """
     lista = []
     dic = storage.all('Amenity')
