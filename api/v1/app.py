@@ -18,7 +18,7 @@ CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 @app.errorhandler(404)
 def page_not_found(error):
     """
-    Function that shows 404
+    Function that shows a 404 error
     """
     return (jsonify(error="Not found"), 404)
 
