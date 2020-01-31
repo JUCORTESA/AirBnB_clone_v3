@@ -10,7 +10,7 @@ from flask import jsonify, abort, request
 
 @app_views.route('/states', methods=['GET'])
 def list_dict():
-    """ list of objetc in dict form
+    """ list of an objetc in a dict form
     """
     lista = []
     dic = storage.all('State')
