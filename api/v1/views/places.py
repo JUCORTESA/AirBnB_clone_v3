@@ -113,20 +113,14 @@ def advanced():
     result, places = [], []
     if len(content) == 0:
         places = storage.all("Place").values()
-        for elem in places:
-            result.append(elem.to_dict())
-        return jsonify(result)
 
-    flag = 0
-    for key in content:
-        if len(content[key]) > 0:
-            flag = 1
-            break
-    if flag == 0:
+    states = content.get("states", [])
+    cities = content.get("cities", [])
+    amenities = content.get("amenities", [])
+
+    if states == [] and cities == []:
         places = storage.all("Place").values()
-        for elem in places:
-            result.append(elem.to_dict())
-        return jsonify(result)
+
     # rule 2
     if "states" in content.keys() and len(content["states"]) > 0:
         states = content["states"]
@@ -147,21 +141,16 @@ def advanced():
 
     places = list(set(places))
 
-    if "amenities" in content.keys() and len(content["amenities"]) > 0:
-        ame = []
-        for id in content["amenities"]:
-            am = storage.get("Amenity", id)
-            if am:
-                ame.append(am)
-        for place in places:
-            place_amenities = place.amenities
-            for amenity in ame:
-                if amenity not in place_amenities:
-                    places.remove(place)
+    ame = []
+    for id in content["amenities"]:
+        am = storage.get("Amenity", id)
+        if am:
+            ame.append(am)
+    for place in places:
+        place_amenities = place.amenities
+        result.append(place.to_dict())
+        for amenity in ame:
+            if amenity not in place_amenities:
+                result.pop()
 
-    for elem in places:
-        var = elem.to_dict()
-        if "amenities" in var.keys():
-            del var["amenities"]
-        result.append(var)
     return jsonify(result)
