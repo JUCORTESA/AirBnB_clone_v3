@@ -148,9 +148,13 @@ def advanced():
             ame.append(am)
     for place in places:
         place_amenities = place.amenities
-        result.append(place.to_dict())
         for amenity in ame:
             if amenity not in place_amenities:
-                result.pop()
+                places.remove(place)
 
+    for elem in places:
+        var = elem.to_dict()
+        if "amenities" in var.keys():
+            del var["amenities"]
+        result.append(var)
     return jsonify(result)
