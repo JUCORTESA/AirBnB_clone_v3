@@ -26,7 +26,7 @@ app.config['SWAGGER'] = {
             "version": "1.0",
             "title": "HBNB API",
             "endpoint": 'v1_views',
-            "description": 'RESTFul API for HBNB',
+            "description": 'RESTFul API for AirBnB clone',
             "route": '/v1/views',
         }
     ]
